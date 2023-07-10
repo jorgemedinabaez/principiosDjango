@@ -1,0 +1,9 @@
+{% extends 'menu.html' %}
+{% block fecha %}
+{% load static %}
+
+<img src="{% static 'img/gatito.png' %}" height="250" width="250" alt="" />
+    <h1 class="text-warning">Hola {{name}} :</h1>
+    <h1 class="text-success">La Fecha Actual es : {{ fecha }}</h1>
+
+{% endblock fecha %}
