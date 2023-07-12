@@ -14,7 +14,8 @@ def index(request):
 
 def obtener_fecha(request,name):
     fecha_actual = datetime.datetime.now()
-    context = {'fecha':fecha_actual,'name':name}
+    context = {'fecha':fecha_actual,'name':name,
+    'frutas':['manzana','pera','durazno'],}
     return render(request,'fecha.html',context)
 
 def menu_view(request):
