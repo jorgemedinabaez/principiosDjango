@@ -12,10 +12,13 @@ class IndexPageReview(TemplateView):
 def index(request):
     return HttpResponse("Bienvenido a mi página, Hola Mundo.")
 
-def obtener_fecha(request,name):
+def obtener_fecha(request,name,foto):
     fecha_actual = datetime.datetime.now()
-    context = {'fecha':fecha_actual,'name':name,
-    'frutas':['manzana','pera','durazno'],}
+    context = {
+        'fecha':fecha_actual,'name':name,
+        'frutas':['manzana','pera','durazno'],
+        'foto':foto,
+    }
     return render(request,'fecha.html',context)
 
 def menu_view(request):
