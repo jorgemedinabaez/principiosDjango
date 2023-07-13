@@ -2,8 +2,9 @@ from django.shortcuts import render
 
 # Create your views here.
 
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.views.generic import TemplateView
+from .forms import NameForm
 import datetime
 
 
@@ -37,3 +38,26 @@ def mostrar(request):
     items = ['Primero','Segundo','Tercero','Cuarto']
     context = {'nombre':persona.nombre,'apellido':persona.apellido,'login':persona.login,'items':items}
     return render(request,'seguro.html',context)
+
+def prueba(request):
+    template_name = 'formulario.html'
+    return render(request,'formulario.html')
+
+def get_name(request):
+    # si se trata de una solicitud post, debemos procesar los datos del formulario.
+    if request.method == 'POST':
+    # crea una instancia de formulario y se completa con los datos de la solicitud:
+        form = NameForm(request.POST)
+    # ahora, comprobar si los datos son válidos:
+        if form.is_valid():
+    # aquí se procesan los datos en 'form.cleaned_data' según sea necesario.
+    # redirigimos a continuación, a una nueva URL.
+            return HttpResponseRedirect('/Thanks/')
+    # si por el contrario, tenemos un métogo get o cualquier otro método, crearemos un formulario en blanco.
+    else:
+        form = NameForm()
+        context = {'form':form}
+    return render(request,'name.html',context)
+
+def gracias_view(request):
+    return HttpResponse('<h1>Datos ingresados correctamente</h1>')
