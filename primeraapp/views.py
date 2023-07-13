@@ -8,9 +8,10 @@ import datetime
 
 
 class Persona:
-    def __init__(self,nombre,apellido):
+    def __init__(self,nombre,apellido,login):
         self.nombre = nombre
         self.apellido = apellido
+        self.login = login
 
 class IndexPageReview(TemplateView):
     template_name = 'index.html'
@@ -32,7 +33,7 @@ def menu_view(request):
     return render(request,template_name)
 
 def mostrar(request):
-    persona = Persona('Juan','Pérex')
+    persona = Persona('Juan','Pérex',True)
     items = ['Primero','Segundo','Tercero','Cuarto']
-    context = {'nombre':persona.nombre,'apellido':persona.apellido,'items':items}
+    context = {'nombre':persona.nombre,'apellido':persona.apellido,'login':persona.login,'items':items}
     return render(request,'seguro.html',context)
