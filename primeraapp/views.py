@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from django.http import HttpResponse,HttpResponseRedirect
 from django.views.generic import TemplateView
-from .forms import NameForm, InputForm
+from .forms import NameForm, InputForm,AutorForm
 import datetime
 
 
@@ -66,4 +66,13 @@ def gracias_view(request):
 def datosform_view(request):
     context = {}
     context['form'] = InputForm()
+    return render(request,'datosform.html',context)
+
+def autorform_view(request):
+    context = {}
+    form = AutorForm(request.POST or None,request.FILES or None)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect('/Thanks/')
+    context['form'] = form
     return render(request,'datosform.html',context)
