@@ -8,7 +8,7 @@ TITLE_CHOICES = [
 ]
 
 class Autor(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=200)
     title = models.CharField(max_length=3,choices=TITLE_CHOICES)
     birth_date = models.DateField(blank=True,null=True)
 
