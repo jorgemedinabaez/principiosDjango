@@ -6,7 +6,8 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.views.generic import TemplateView
 from .forms import NameForm, InputForm,AutorForm,UserRegisterForm
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login,authenticate,logout
+from django.contrib.auth.forms import AuthenticationForm
 import datetime
 
 
@@ -86,9 +87,37 @@ def register_view(request):
             user = form.save()
             login(request,user)
             messages.success(request,'registrado satisfactoriamente')
-        messages.error(request,'registro inválido. Algunos datos ingresados no son correctos')
-        return HttpResponseRedirect('/menu/')
+        else:
+            messages.error(request,'registro inválido. Algunos datos ingresados no son correctos')
+        return HttpResponseRedirect('/menu')
     
     form = UserRegisterForm()
     context = {'register_form':form}
     return render(request,'registro.html',context)
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request,data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username,password=password)
+            if user is not None:
+                login(request,user)
+                messages.info(request,f'iniciaste sesión como: {username}.')
+                return HttpResponseRedirect('/menu')
+            else:
+                messages.error(request,'username y/o password incorrecto')
+                return HttpResponseRedirect('/login')
+        else:
+            messages.error(request,'username y/o password incorrecto')
+            return HttpResponseRedirect('/login')
+
+    form = AuthenticationForm()
+    context = {'login_form':form}
+    return render(request,'login.html',context)
+
+def logout_view(request):
+    logout(request)
+    messages.info(request,'Se ha cerrado sesión exitosamente.')
+    return HttpResponseRedirect('/menu')

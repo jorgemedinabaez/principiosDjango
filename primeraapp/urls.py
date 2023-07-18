@@ -13,7 +13,9 @@ from .views import (
     gracias_view,
     datosform_view,
     autorform_view,
-    register_view
+    register_view,
+    login_view,
+    logout_view
     )
 
 urlpatterns = [
@@ -26,6 +28,10 @@ urlpatterns = [
     path('datosform/',datosform_view,name='datosform'),
     path('autorform/',autorform_view,name='autorform'),
     path('register/',register_view,name='register'),
+    path('login/',login_view,name='login'),
+    path('logout/',logout_view,name='logout'),
+
+
 
     path('prueba/',prueba,name='prueba'),
 ]
