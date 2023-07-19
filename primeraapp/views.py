@@ -8,6 +8,13 @@ from .forms import NameForm, InputForm,AutorForm,UserRegisterForm
 from django.contrib import messages
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.forms import AuthenticationForm
+# importamos el modelo autor para los permisos:
+from .models import Autor
+# gestionar permisos:
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
+# importamos el mixin:
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin        
 import datetime
 
 
@@ -17,8 +24,10 @@ class Persona:
         self.apellido = apellido
         self.login = login
 
-class IndexPageReview(TemplateView):
+class IndexPageReview(LoginRequiredMixin,PermissionRequiredMixin,TemplateView):
+    login_url = '/login/'
     template_name = 'index.html'
+    permission_required = 'primeraapp.es_miembro_1'
 
 def index(request):
     return HttpResponse("Bienvenido a mi página, Hola Mundo.")
@@ -84,7 +93,16 @@ def register_view(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
+            # obtenemos el contenttype del modelo:
+            content_type = ContentType.objects.get_for_model(Autor)
+            # obtenemos el permiso a asignar:
+            es_miembro_1 = Permission.objects.get(
+                codename='es_miembro_1',
+                content_type=content_type
+            )
             user = form.save()
+            # agregar el permiso al usuario al momento del registro:
+            user.user_permissions.add(es_miembro_1)
             login(request,user)
             messages.success(request,'registrado satisfactoriamente')
         else:
@@ -105,7 +123,7 @@ def login_view(request):
             if user is not None:
                 login(request,user)
                 messages.info(request,f'iniciaste sesión como: {username}.')
-                return HttpResponseRedirect('/menu')
+                return HttpResponseRedirect('/')
             else:
                 messages.error(request,'username y/o password incorrecto')
                 return HttpResponseRedirect('/login')
