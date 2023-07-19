@@ -8,6 +8,8 @@ from .forms import NameForm, InputForm,AutorForm,UserRegisterForm
 from django.contrib import messages
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.forms import AuthenticationForm
+# importaremos decoradores:
+from django.contrib.auth.decorators import login_required,permission_required
 # importamos el modelo autor para los permisos:
 from .models import Autor
 # gestionar permisos:
@@ -41,16 +43,19 @@ def obtener_fecha(request,name,foto):
     }
     return render(request,'fecha.html',context)
 
+@login_required(login_url='/login/')
 def menu_view(request):
     template_name = 'menu.html'
     return render(request,template_name)
 
+@login_required(login_url='/login/')
 def mostrar(request):
     persona = Persona('Juan','Pérex',True)
     items = ['Primero','Segundo','Tercero','Cuarto']
     context = {'nombre':persona.nombre,'apellido':persona.apellido,'login':persona.login,'items':items}
     return render(request,'seguro.html',context)
 
+@permission_required(login_url='/login/')
 def prueba(request):
     template_name = 'formulario.html'
     return render(request,'formulario.html')
@@ -79,6 +84,10 @@ def datosform_view(request):
     context = {}
     context['form'] = InputForm()
     return render(request,'datosform.html',context)
+
+def autor_view(request):
+# permitirá ver a todos los autores registrados en una tabla llamada 'autor.view'.
+    pass
 
 def autorform_view(request):
     context = {}
