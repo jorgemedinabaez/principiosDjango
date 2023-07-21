@@ -55,7 +55,7 @@ def mostrar(request):
     context = {'nombre':persona.nombre,'apellido':persona.apellido,'login':persona.login,'items':items}
     return render(request,'seguro.html',context)
 
-@permission_required(login_url='/login/')
+@permission_required(perm='primeraapp.es_miembro_1',raise_exception=True)
 def prueba(request):
     template_name = 'formulario.html'
     return render(request,'formulario.html')
@@ -85,9 +85,11 @@ def datosform_view(request):
     context['form'] = InputForm()
     return render(request,'datosform.html',context)
 
-def autor_view(request):
+@permission_required(perm='primeraapp.es_miembro_1',raise_exception=True)
+def authors_view(request):
 # permitirá ver a todos los autores registrados en una tabla llamada 'autor.view'.
-    pass
+    authors = Autor.objects.all()
+    return render(request,'authors.html',context={'authors':authors})
 
 def autorform_view(request):
     context = {}
