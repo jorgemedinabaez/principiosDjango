@@ -10,6 +10,8 @@ from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.forms import AuthenticationForm
 # importaremos decoradores:
 from django.contrib.auth.decorators import login_required,permission_required
+# a continuación importamos un decorador que exige ser staff para ingresar a la página:
+from django.contrib.admin.views.decorators import staff_member_required
 # importamos el modelo autor para los permisos:
 from .models import Autor
 # gestionar permisos:
@@ -91,6 +93,9 @@ def authors_view(request):
     authors = Autor.objects.all()
     return render(request,'authors.html',context={'authors':authors})
 
+# con la siguiente vista, podremos tener un formulario que cree autores:
+# además de ello, tendrá la limitación de que sólo podrán acceder miembros 'staff' a la página:
+@staff_member_required(login_url='/authors/')
 def autorform_view(request):
     context = {}
     form = AutorForm(request.POST or None,request.FILES or None)
@@ -100,6 +105,7 @@ def autorform_view(request):
     context['form'] = form
     return render(request,'datosform.html',context)
 
+# vista destinada al registro, inicio y cierre de sesión del usuario (no debe ser protegida):
 def register_view(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
