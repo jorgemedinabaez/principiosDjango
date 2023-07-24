@@ -8,11 +8,11 @@ TITLE_CHOICES = [
 ]
 
 class Autor(models.Model):
-    name = models.CharField(max_length=200)
-    title = models.CharField(max_length=3,choices=TITLE_CHOICES)
-    birth_date = models.DateField(blank=True,null=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=200,verbose_name='Nombre')
+    title = models.CharField(max_length=3,verbose_name='Título',choices=TITLE_CHOICES)
+    birth_date = models.DateField(blank=True,verbose_name='Fecha de nacimiento',null=True)
+    created = models.DateTimeField(auto_now_add=True,verbose_name='Fecha de creación')
+    updated = models.DateTimeField(auto_now=True,verbose_name='Fecha de actualización')
 
     class Meta:
         permissions = (
@@ -21,15 +21,15 @@ class Autor(models.Model):
         verbose_name = 'Autor'
         verbose_name_plural ='Autores'
         ordering = ['-birth_date']
-        
+
     def __str__(self):
         return self.name
 
 class Book(models.Model):
-    name = models.CharField(max_length=100)
-    authors = models.ManyToManyField(Autor)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=100,verbose_name='Nombre')
+    authors = models.ManyToManyField(Autor,verbose_name='Autores')
+    created = models.DateTimeField(auto_now_add=True,verbose_name='Fecha de creación')
+    updated = models.DateTimeField(auto_now=True,verbose_name='Fecha de actualización')
     
     class Meta:
         verbose_name = 'Libro'

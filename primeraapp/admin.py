@@ -12,6 +12,9 @@ class AutorAdmin(admin.ModelAdmin):
     ordering = ('name',)
     list_filter = ('created','name')
 
+    def actualizar_nombre(request,queryset):
+        queryset.update() 
+
 class BookAdmin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
 
