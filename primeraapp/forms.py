@@ -1,9 +1,11 @@
 # se importa la clase interna de django forms, para la creación de formularios.
 from django import forms
-from .models import Autor
 # importar clases para el registro de usuario con el auth de django.
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
+from .models import Autor
+
 
 class NameForm(forms.Form):
     your_name = forms.CharField(label='Tu nombre:',max_length=100)

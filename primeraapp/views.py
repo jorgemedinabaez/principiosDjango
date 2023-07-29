@@ -1,25 +1,29 @@
-from django.shortcuts import render
+import datetime
 from tokenize import PseudoExtras
-# Create your views here.
 
-from django.http import HttpResponse,HttpResponseRedirect
-from django.views.generic import TemplateView
-from .forms import NameForm, InputForm,AutorForm,UserRegisterForm
 from django.contrib import messages
-from django.contrib.auth import login,authenticate,logout
-from django.contrib.auth.forms import AuthenticationForm
-# importaremos decoradores:
-from django.contrib.auth.decorators import login_required,permission_required
 # a continuación importamos un decorador que exige ser staff para ingresar a la página:
 from django.contrib.admin.views.decorators import staff_member_required
-# importamos el modelo autor para los permisos:
-from .models import Autor
+from django.contrib.auth import authenticate, login, logout
+# importaremos decoradores:
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.forms import AuthenticationForm
+# importamos el mixin:
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin)
 # gestionar permisos:
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
-# importamos el mixin:
-from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin        
-import datetime
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.views.generic import TemplateView
+
+from .forms import AutorForm, InputForm, NameForm, UserRegisterForm
+# importamos el modelo autor para los permisos:
+from .models import Autor
+
+# Create your views here.
+
 
 
 class Persona:

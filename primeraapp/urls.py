@@ -3,21 +3,10 @@
 
 from django.urls import path
 
-from .views import (
-    IndexPageReview,
-    obtener_fecha,
-    menu_view,
-    mostrar,
-    prueba,
-    get_name,
-    gracias_view,
-    datosform_view,
-    autorform_view,
-    register_view,
-    login_view,
-    logout_view,
-    authors_view
-    )
+from .views import (IndexPageReview, authors_view, autorform_view,
+                    datosform_view, get_name, gracias_view, login_view,
+                    logout_view, menu_view, mostrar, obtener_fecha, prueba,
+                    register_view)
 
 urlpatterns = [
     path('',IndexPageReview.as_view(),name='index'),

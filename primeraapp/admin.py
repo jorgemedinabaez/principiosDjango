@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Autor,Book
+
+from .models import Autor, Book
+
 # Register your models here.
 admin.site.site_header = 'Curso Django 0031'
 admin.site.index_title = 'Panel de control'
